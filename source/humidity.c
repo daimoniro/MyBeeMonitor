@@ -12,11 +12,10 @@
 #include <stdbool.h>
 #include <pthread.h>
 #include <unistd.h>
-
-//#include <pigpio.h>
 #include <stdint.h>
 
-
+//#include <pigpio.h>
+#include "fake_pigpio.h"
 #include "debug.h"
 
 
@@ -24,6 +23,9 @@
 #define DHT_PIN		22
 
 #define MAX_TIMINGS	85
+
+
+
 /* Private macros -------------------------------------------------------------*/
 
 /* Private data types ---------------------------------------------------------*/

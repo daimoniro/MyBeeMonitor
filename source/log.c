@@ -102,18 +102,7 @@ void CloseFileLog()
 }
 
 
-//----------------------------------------------------------------------
-//  printIntestazioneFiles
-//----------------------------------------------------------------------
-void printIntestazioneFiles()
-{
 
-    TRACE4(1,"MAIN",BIANCO,NERO_BG,"-------------------------------------------------",1);
-    sprintf(debugSTR,"Start ATM Algorab ULB ver: 1.1");
-    TRACE4(1,"MAIN",BIANCO,NERO_BG,debugSTR,1);
-    TRACE4(1,"MAIN",BIANCO,NERO_BG,"-------------------------------------------------",1);
-
-}
 
 //----------------------------------------------------------------------
 //  checkDimensioneFileLog

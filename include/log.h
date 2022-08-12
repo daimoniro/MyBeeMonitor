@@ -20,7 +20,6 @@
 //		Funzioni
 //-----------------------------------------------------------------------------
 
-void printIntestazioneFiles();
 
 void ScriviLog(char * string2log);
 

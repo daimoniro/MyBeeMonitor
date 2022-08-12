@@ -5,7 +5,7 @@ OBJS=$(patsubst %.c,$(OBJDIR)/%.o,$(SRCS))
 
 TARGET=		myBeeMonitor
 
-LIB=		-lpthread 
+LIB=		-lpthread -lmosquitto -ljansson
 SAMPLE_EXTRA_LIBS = -lm  
 LDADD =  $(SAMPLE_EXTRA_LIBS)
 
@@ -15,7 +15,7 @@ CFLAGS+=     -I./../include/ $(INCLUDE_DBUS) -Wall -Wextra
 $(OBJDIR)/%.o: %.c
 	$(CC)  $(LDADD) $(CFLAGS) -c $< -o $@
 	
-all: clean $(TARGET)
+all: clean $(TARGET) copy
 			
 # Normale			
 $(TARGET): $(OBJS)
@@ -25,5 +25,5 @@ clean:
 	rm -f $(OBJDIR)/*.o $(TARGET) 
 	
 copy:
-	scp  $(TARGET) root@192.168.5.197:/home/root/prototipo
+	scp  $(TARGET) root@192.168.6.71:/home/root/myBeeMonitor
 
