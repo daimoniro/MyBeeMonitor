@@ -1,6 +1,6 @@
 /**
  ******************************************************************************
- * @file    module.c
+ * @file    weight.c
  ******************************************************************************
  */
 
@@ -29,28 +29,28 @@
 /* Public variables -----------------------------------------------------------*/
 
 /* Private function prototypes ------------------------------------------------*/
-void *module_Management();
+void *weight_management();
 
 /* Private function bodies ----------------------------------------------------*/
 
 //-----------------------------------------------------------------------------
-//	StartModuleManagement
+//	StartWeightManagement
 //-----------------------------------------------------------------------------
-void StartModuleManagement()
+void StartWeightManagement()
 {
 	// Demone Configurazione Board
 	pthread_t ThNTP;
 
 	// create tread
-	pthread_create(&ThNTP, NULL, &module_Management, NULL);
+	pthread_create(&ThNTP, NULL, &weight_management, NULL);
 
 } 
 
 
 //-----------------------------------------------------------------------------
-//	module_Management
+//	weight_management
 //-----------------------------------------------------------------------------
-void *module_Management()
+void *weight_management()
 {
     while(true)
     {

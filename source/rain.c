@@ -1,20 +1,18 @@
+/**
+ ******************************************************************************
+ * @file    rain.c
+ ******************************************************************************
+ */
+
 /* Includes ------------------------------------------------------------------ */
+#include <time.h>
 #include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h> 
 #include <string.h>
+#include <stdlib.h>
 #include <stdbool.h>
-#include <ctype.h>
-#include <signal.h>
 #include <pthread.h>
+#include <unistd.h>
 
-
-#include "../include/version.h"
-#include "../include/temperature.h"
-#include "../include/humidity.h"
-#include "../include/rain.h"
-#include "../include/weight.h"
-#include "../include/mqtt.h"
 
 /* Private defines ------------------------------------------------------------*/
 
@@ -31,43 +29,32 @@
 /* Public variables -----------------------------------------------------------*/
 
 /* Private function prototypes ------------------------------------------------*/
-
-/* Public function bodies -----------------------------------------------------*/
+void *rain_management();
 
 /* Private function bodies ----------------------------------------------------*/
 
-
-int main(int argc, char *argv[])
+//-----------------------------------------------------------------------------
+//	StartRainManagement
+//-----------------------------------------------------------------------------
+void StartRainManagement()
 {
-	(void)argc;
-	(void)argv;
-	
-	StartTemperatureManagement();
+	// Demone Configurazione Board
+	pthread_t ThNTP;
 
-	StartHumManagement();
+	// create tread
+	pthread_create(&ThNTP, NULL, &rain_management, NULL);
 
-	StartRainManagement();
+} 
 
-	StartWeightManagement();
 
-	StartMqttManagement();
-
-	
-	while(true)
-	{
-		sleep(1);
-	}
-
-	return 0;
+//-----------------------------------------------------------------------------
+//	rain_management
+//-----------------------------------------------------------------------------
+void *rain_management()
+{
+    while(true)
+    {
+        sleep(1);
+        printf("Do stuff ...\n");
+    }
 }
-
-
-
-
-
-
-
-
-
-
-

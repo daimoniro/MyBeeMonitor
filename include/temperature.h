@@ -1,18 +1,14 @@
 /**
  ******************************************************************************
  * @file    	module.h
- * @brief   	Mqtt header file
  * @author  	Lorenzo Joale'
- * @copyright 	SOLIDpower SpA
- * @date    	14 Sep 2021
- *.
- *
+ * @date    	12 Aug 2022
  *******************************************************************************
  */
 
-#ifndef _MODULE_H
-#define _MODULE_H
+#ifndef _TEMPERATURE_H
+#define _TEMPERATURE_H
 
-void StartModuleManagement();
+void StartTemperatureManagement();
 
-#endif /* _MODULE_H */
+#endif /* _TEMPERATURE_H */

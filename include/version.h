@@ -1,13 +1,8 @@
 /**
  ******************************************************************************
  * @file    	version.h
- * @brief   	Versioning file
  * @author  	Lorenzo Joale'
- * @copyright 	SOLIDpower SpA
- * @date    	14 Sep 2021
- *
- * This file contains project's version.
- *
+ * @date    	12 Aug 2022
  *******************************************************************************
  */
 
@@ -16,8 +11,6 @@
 
 /*
  * Software version
- *
- * Define Version for SEC. Increase after modification according the following rules:
  * MAJ_VERSION 	-> Only when major version is released;
  * MIN_VERSION 	-> When a feature is implemented;
  * PATCH 		-> when a patch is implemented (bug correction).
