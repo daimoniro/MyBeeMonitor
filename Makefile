@@ -1,15 +1,15 @@
 
-OBJDIR= ../objs
+OBJDIR= objs
 SRCS=$(shell find -L . -name '*.c')
 OBJS=$(patsubst %.c,$(OBJDIR)/%.o,$(SRCS))
 
-TARGET=		myBeeMonitor
+TARGET=		build/myBeeMonitor
 
 LIB=		-lpthread -lmosquitto -ljansson
 SAMPLE_EXTRA_LIBS = -lm  
 LDADD =  $(SAMPLE_EXTRA_LIBS)
 
-CFLAGS+=     -I./../include/ $(INCLUDE_DBUS) -Wall -Wextra 
+CFLAGS+=     -Iinclude/ $(INCLUDE_DBUS) -Wall -Wextra 
 	
 	
 $(OBJDIR)/%.o: %.c
@@ -22,7 +22,7 @@ $(TARGET): $(OBJS)
 	$(CC) $(OBJS) -o $(TARGET) $(LIB) ${LDADD} $(CFLAGS)
 			
 clean:
-	rm -f $(OBJDIR)/*.o $(TARGET) 
+	rm -f $(OBJDIR)/source/*.o $(TARGET) 
 	
 copy:
 	scp  $(TARGET) root@192.168.6.71:/home/root/myBeeMonitor
