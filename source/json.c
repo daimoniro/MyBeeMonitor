@@ -1,6 +1,7 @@
+
 /**
  ******************************************************************************
- * @file    weight.c
+ * @file    rain.c
  ******************************************************************************
  */
 
@@ -12,7 +13,7 @@
 #include <stdbool.h>
 #include <pthread.h>
 #include <unistd.h>
-
+#include <jansson.h>
 
 /* Private defines ------------------------------------------------------------*/
 
@@ -29,32 +30,29 @@
 /* Public variables -----------------------------------------------------------*/
 
 /* Private function prototypes ------------------------------------------------*/
-void *weight_management();
 
 /* Private function bodies ----------------------------------------------------*/
 
-//-----------------------------------------------------------------------------
-//	StartWeightManagement
-//-----------------------------------------------------------------------------
-void StartWeightManagement()
+
+char *build_get_test_json()
 {
-	// Demone Configurazione Board
-	pthread_t ThNTP;
+	json_t *obj = json_pack("{"
+							// inbound
+							"s:{s:i,s:i,s:f,s:s}"
+							"}",
 
-	// create tread
-	pthread_create(&ThNTP, NULL, &weight_management, NULL);
+							/* test start */
+							"inbound",
+							"current_iteration", 1,
+							"current_step", 2,
+							"current_iteration_time", 3.5,
+							"remaining_iteration","ITdsdsdsd"
+	);
 
-} 
+	
+	char *json = json_dumps(obj, JSON_PRESERVE_ORDER | JSON_REAL_PRECISION(4));
 
-
-//-----------------------------------------------------------------------------
-//	weight_management
-//-----------------------------------------------------------------------------
-void *weight_management()
-{
-    while(true)
-    {
-        sleep(1);
-      //  printf("Do stuff ...\n");
-    }
+	//printf("json: %s\n",json);
+	json_decref(obj);
+	return json;
 }

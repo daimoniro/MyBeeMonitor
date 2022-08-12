@@ -14,6 +14,8 @@
 #include <unistd.h>
 #include <mosquitto.h>
 
+
+#include "json.h"
 /* Private defines ------------------------------------------------------------*/
 #define OPENVPN_STOP_COMMAND 		"/etc/init.d/openvpn stop"
 #define OPENVPN_START_COMMAND 		"/etc/init.d/openvpn start"
@@ -86,7 +88,8 @@ void *mqtt_management()
     while(true)
     {
         sleep(1);
-		send_mqtt_publish("test");
+		send_mqtt_publish(build_get_test_json());
+
     }
 }
 

@@ -90,7 +90,7 @@ void *temperature_management()
 
         usleep(100000);
 		time(&now);
-		printf("now: %ld\n",now);
+		//printf("now: %ld\n",now);
 
 
 		if((now % FREQUENZA_LETTURA_TEMPERATURE) == 0)

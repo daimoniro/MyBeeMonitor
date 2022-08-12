@@ -55,6 +55,6 @@ void *rain_management()
     while(true)
     {
         sleep(1);
-        printf("Do stuff ...\n");
+        //printf("Do stuff ...\n");
     }
 }
