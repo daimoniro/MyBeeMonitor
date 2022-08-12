@@ -14,6 +14,7 @@
 #include <unistd.h>
 
 #include "debug.h"
+#include "apiario.h"
 
 /* Private defines ------------------------------------------------------------*/
 
@@ -40,6 +41,9 @@ int valoriTemperatura[3];
 char pathDeviceTemperatureSensor[64];
 
 float tempDS18D20 = 0;
+
+extern apiario_t apiario;
+
 /* Private function prototypes ------------------------------------------------*/
 void *temperature_management();
 int letturaTemperatura(int idSensore);
@@ -106,6 +110,8 @@ void *temperature_management()
 					TRACE4(1,"TEMPERATURE",BIANCO,NERO_BG,debug_str_temp,0);
 
 					tempDS18D20 = (float)((short)valoriTemperatura[0])/((float)1000);
+
+                    apiario.arnie[0].temperature_internal = tempDS18D20;
 				}
 				else
 				{

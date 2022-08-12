@@ -88,7 +88,13 @@ void *mqtt_management()
     while(true)
     {
         sleep(1);
-		send_mqtt_publish(build_get_test_json());
+        char* string2send = build_get_apiario_json();
+
+        if (string2send != NULL)
+        {
+            send_mqtt_publish(string2send);
+            free(string2send);
+        }
 
     }
 }

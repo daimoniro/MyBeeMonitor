@@ -13,6 +13,7 @@
 #include <pthread.h>
 #include <unistd.h>
 
+#include "apiario.h"
 
 /* Private defines ------------------------------------------------------------*/
 
@@ -27,6 +28,7 @@
 /* Private variables ----------------------------------------------------------*/
 
 /* Public variables -----------------------------------------------------------*/
+extern apiario_t apiario;
 
 /* Private function prototypes ------------------------------------------------*/
 void *weight_management();
@@ -55,6 +57,10 @@ void *weight_management()
     while(true)
     {
         sleep(1);
+
+        apiario.arnie[0].weight = 40.4;
+        apiario.arnie[1].weight = 0.4;
+        apiario.arnie[2].weight = 80.4;
       //  printf("Do stuff ...\n");
     }
 }

@@ -17,7 +17,7 @@
 //#include <pigpio.h>
 #include "fake_pigpio.h"
 #include "debug.h"
-
+#include "apiario.h"
 
 /* Private defines ------------------------------------------------------------*/
 #define DHT_PIN		22
@@ -44,6 +44,7 @@ float humDHT22 = 0;
 char debug_str_hum[256];
 
 /* Public variables -----------------------------------------------------------*/
+extern apiario_t apiario;
 
 /* Private function prototypes ------------------------------------------------*/
 void *humidity_management();

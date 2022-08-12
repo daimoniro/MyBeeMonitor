@@ -15,6 +15,8 @@
 #include <unistd.h>
 #include <jansson.h>
 
+#include "apiario.h"
+
 /* Private defines ------------------------------------------------------------*/
 
 /* Private macros -------------------------------------------------------------*/
@@ -32,21 +34,33 @@
 /* Private function prototypes ------------------------------------------------*/
 
 /* Private function bodies ----------------------------------------------------*/
+extern apiario_t apiario;
 
-
-char *build_get_test_json()
+char *build_get_apiario_json()
 {
 	json_t *obj = json_pack("{"
-							// inbound
-							"s:{s:i,s:i,s:f,s:s}"
+							"s:{s:f,s:f,s:f},"      //common
+                            "s:{s:f,s:f,s:f},"  //arnia_1
+                            "s:{s:f,s:f,s:f},"  //arnia_2
+                            "s:{s:f,s:f,s:f}"   //arnia_3
 							"}",
 
-							/* test start */
-							"inbound",
-							"current_iteration", 1,
-							"current_step", 2,
-							"current_iteration_time", 3.5,
-							"remaining_iteration","ITdsdsdsd"
+							"common",
+							    "rain", apiario.rain,
+							    "temperature_external", apiario.temperature_external,
+                                "lux",apiario.lux,
+                            "arnia_1",
+							    "temperature_internal", apiario.arnie[0].temperature_internal,
+							    "humidity_internal", apiario.arnie[0].humidity_internal,
+                                "weight", apiario.arnie[0].weight,
+                            "arnia_2",
+							     "temperature_internal", apiario.arnie[1].temperature_internal,
+							    "humidity_internal", apiario.arnie[1].humidity_internal,
+                                "weight", apiario.arnie[1].weight,
+                            "arnia_3",
+							     "temperature_internal", apiario.arnie[2].temperature_internal,
+							    "humidity_internal", apiario.arnie[2].humidity_internal,
+                                "weight", apiario.arnie[2].weight
 	);
 
 	

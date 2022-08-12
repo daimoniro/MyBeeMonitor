@@ -8,6 +8,6 @@
 
 #ifndef _JSON_H
 #define _JSON_H
-char *build_get_test_json();
+char *build_get_apiario_json();
 
 #endif /* _JSON_H */
