@@ -14,6 +14,7 @@
 #include "../include/humidity.h"
 #include "../include/rain.h"
 #include "../include/weight.h"
+#include "../include/lux.h"
 #include "../include/mqtt.h"
 
 /* Private defines ------------------------------------------------------------*/
@@ -49,6 +50,10 @@ int main(int argc, char *argv[])
 	StartRainManagement();
 
 	StartWeightManagement();
+
+	StartLuxManagement();
+
+	sleep(2);
 
 	StartMqttManagement();
 
