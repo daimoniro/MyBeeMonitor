@@ -13,9 +13,14 @@
 #include <pthread.h>
 #include <unistd.h>
 
+#include <pigpio.h>
+
 #include "apiario.h"
+#include "debug.h"
+#include "log.h"
 /* Private defines ------------------------------------------------------------*/
 
+#define RAIN_PIN    18
 /* Private macros -------------------------------------------------------------*/
 
 /* Private data types ---------------------------------------------------------*/
@@ -25,7 +30,7 @@
 /* Private structures ---------------------------------------------------------*/
 
 /* Private variables ----------------------------------------------------------*/
-
+char debug_str_rain[256];
 /* Public variables -----------------------------------------------------------*/
 extern apiario_t apiario;
 
@@ -53,11 +58,18 @@ void StartRainManagement()
 //-----------------------------------------------------------------------------
 void *rain_management()
 {
+
+    /* prepare to read the pin */
+	gpioSetMode( RAIN_PIN, PI_INPUT );
+
     while(true)
     {
         sleep(1);
 
-        apiario.rain = 1.4;
+        apiario.rain = (float)gpioRead( RAIN_PIN );
+        sprintf(debug_str_rain,"RAIN --> %f", apiario.rain);
+		TRACE4(1,"RAIN",BIANCO,NERO_BG,debug_str_rain,0);
+      
         //printf("Do stuff ...\n");
     }
 }

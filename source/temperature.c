@@ -18,7 +18,7 @@
 
 /* Private defines ------------------------------------------------------------*/
 
-#define FREQUENZA_LETTURA_TEMPERATURE	5
+#define FREQUENZA_LETTURA_TEMPERATURE	2
 
 #define ID_SENDORE_INTERNO	0
 
@@ -80,7 +80,7 @@ void *temperature_management()
 	//system("sudo modprobe w1-therm");
 
 
-	sprintf(pathDeviceTemperatureSensor,"/sys/bus/w1/devices/28-00000620f601/w1_slave");
+	sprintf(pathDeviceTemperatureSensor,"/sys/bus/w1/devices/28-000000103925/w1_slave");
 	//sprintf(pathDeviceTemperatureSensor,"/sys/bus/w1/devices/%s/w1_slave",cfg.idTemperatureSensor);
 
 	valoriTemperatura[ID_SENDORE_INTERNO] = 0xFFFF;
@@ -92,39 +92,40 @@ void *temperature_management()
     while(true)
     {
 
-        usleep(100000);
+        usleep(500000);
 		time(&now);
 		//printf("now: %ld\n",now);
 
 
-		if((now % FREQUENZA_LETTURA_TEMPERATURE) == 0)
+		//if((now % FREQUENZA_LETTURA_TEMPERATURE) == 0)
 		{
 
-			if(temperatureLette == 0)
+			//if(temperatureLette == 0)
 			{
 				returnFunz = letturaTemperatura(ID_SENDORE_INTERNO);
 
 				if(returnFunz >0 )
 				{
-					sprintf(debug_str_temp,"valoreTemperatura %d",valoriTemperatura[0]);
-					TRACE4(1,"TEMPERATURE",BIANCO,NERO_BG,debug_str_temp,0);
 
 					tempDS18D20 = (float)((short)valoriTemperatura[0])/((float)1000);
+
+					sprintf(debug_str_temp,"valoreTemperatura %f",tempDS18D20);
+					TRACE4(1,"TEMP",BIANCO,NERO_BG,debug_str_temp,0);
 
                     apiario.arnie[0].temperature_internal = tempDS18D20;
 				}
 				else
 				{
 					sprintf(debug_str_temp,"Errore lettura temperatura. path: %s",pathDeviceTemperatureSensor);
-					TRACE4(1,"TEMPERATURE",NERO,ROSSO_BG,debug_str_temp,0);
+					TRACE4(1,"TEMP",NERO,ROSSO_BG,debug_str_temp,0);
 				}
 				temperatureLette = 1;
 			}
 		}
-		else
+		/*else
 		{
 			temperatureLette = 0;
-		}
+		}*/
     }
 }
 
@@ -173,7 +174,7 @@ int letturaTemperatura(int idSensore)
 
 	while(fgets(Line,256,SensoreFile)!=NULL)
 	{
-		printf("Leggo %s da file %s\n",Line,pathDeviceTemperatureSensor);
+		//printf("Leggo %s da file %s\n",Line,pathDeviceTemperatureSensor);
 
 		//Leggo 15 00 4b 46 7f ff 0b 10 a4 : crc=a4 YES
 		//Leggo 15 00 4b 46 7f ff 0b 10 a4 t=1312

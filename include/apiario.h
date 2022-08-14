@@ -13,6 +13,7 @@
 
 typedef struct arnia_s {
     float temperature_internal; 
+    float temperature_internal_2; 
     float humidity_internal;
     float weight;
 } arnia_t;

@@ -3,9 +3,9 @@ OBJDIR= objs
 SRCS=$(shell find -L . -name '*.c')
 OBJS=$(patsubst %.c,$(OBJDIR)/%.o,$(SRCS))
 
-TARGET=		build/myBeeMonitor
+TARGET=		myBeeMonitor
 
-LIB=		-lpthread -lmosquitto -ljansson
+LIB=		-lpthread -lmosquitto -ljansson -lpigpio
 SAMPLE_EXTRA_LIBS = -lm  
 LDADD =  $(SAMPLE_EXTRA_LIBS)
 
@@ -15,7 +15,7 @@ CFLAGS+=     -Iinclude/ $(INCLUDE_DBUS) -Wall -Wextra
 $(OBJDIR)/%.o: %.c
 	$(CC)  $(LDADD) $(CFLAGS) -c $< -o $@
 	
-all: clean $(TARGET) copy
+all: $(TARGET) 
 			
 # Normale			
 $(TARGET): $(OBJS)

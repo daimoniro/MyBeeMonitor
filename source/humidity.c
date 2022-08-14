@@ -14,8 +14,7 @@
 #include <unistd.h>
 #include <stdint.h>
 
-//#include <pigpio.h>
-#include "fake_pigpio.h"
+#include <pigpio.h>
 #include "debug.h"
 #include "apiario.h"
 
@@ -73,7 +72,7 @@ void *humidity_management()
 {
     while(true)
     {
-        sleep(1);
+        sleep(2);
 		read_dht_data();
     }
 }
@@ -150,11 +149,18 @@ void read_dht_data()
 		}
 
 
-		sprintf(debug_str_hum,"DHT22 --> Humidity = %.1f %% Temperature = %.1f *C\n", h, c);
+		sprintf(debug_str_hum,"DHT22 --> Humidity = %.1f %% Temperature = %.1f *C", h, c);
 		TRACE4(1,"HUM",BIANCO,NERO_BG,debug_str_hum,0);
 
 		tempDHT22 = c;
 		humDHT22 = h;
+
+
+		  apiario.arnie[0].humidity_internal = humDHT22;
+		    apiario.arnie[0].temperature_internal_2 = tempDHT22;
+		  
+
+
 	}
 	else
 	{

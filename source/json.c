@@ -40,9 +40,9 @@ char *build_get_apiario_json()
 {
 	json_t *obj = json_pack("{"
 							"s:{s:f,s:f,s:f},"      //common
-                            "s:{s:f,s:f,s:f},"  //arnia_1
-                            "s:{s:f,s:f,s:f},"  //arnia_2
-                            "s:{s:f,s:f,s:f}"   //arnia_3
+                            "s:{s:f,s:f,s:f,s:f},"  //arnia_1
+                            "s:{s:f,s:f,s:f,s:f},"  //arnia_2
+                            "s:{s:f,s:f,s:f,s:f}"   //arnia_3
 							"}",
 
 							"common",
@@ -51,14 +51,17 @@ char *build_get_apiario_json()
                                 "lux",apiario.lux,
                             "arnia_1",
 							    "temperature_internal", apiario.arnie[0].temperature_internal,
+								"internal_2", apiario.arnie[0].temperature_internal_2,
 							    "humidity_internal", apiario.arnie[0].humidity_internal,
                                 "weight", apiario.arnie[0].weight,
                             "arnia_2",
 							     "temperature_internal", apiario.arnie[1].temperature_internal,
+								 "internal_2", apiario.arnie[1].temperature_internal_2,
 							    "humidity_internal", apiario.arnie[1].humidity_internal,
                                 "weight", apiario.arnie[1].weight,
                             "arnia_3",
 							     "temperature_internal", apiario.arnie[2].temperature_internal,
+								 "internal_2", apiario.arnie[2].temperature_internal_2,
 							    "humidity_internal", apiario.arnie[2].humidity_internal,
                                 "weight", apiario.arnie[2].weight
 	);

@@ -7,7 +7,7 @@
 #include <ctype.h>
 #include <signal.h>
 #include <pthread.h>
-
+#include <pigpio.h>
 
 #include "../include/version.h"
 #include "../include/temperature.h"
@@ -32,6 +32,8 @@
 /* Public variables -----------------------------------------------------------*/
 
 /* Private function prototypes ------------------------------------------------*/
+void sig_handler(int signo);
+void closePigpioLybrary();
 
 /* Public function bodies -----------------------------------------------------*/
 
@@ -42,6 +44,11 @@ int main(int argc, char *argv[])
 {
 	(void)argc;
 	(void)argv;
+
+	gpioInitialise();
+
+	gpioSetSignalFunc(SIGINT, sig_handler);
+
 	
 	StartTemperatureManagement();
 
@@ -66,6 +73,25 @@ int main(int argc, char *argv[])
 	return 0;
 }
 
+//--------------------------------------------------
+// sig_handler
+//--------------------------------------------------
+void sig_handler(int signo)
+{
+	 closePigpioLybrary();
+	 exit(0);
+
+}
+
+//--------------------------------------------------
+// closePigpioLybrary
+//--------------------------------------------------
+void closePigpioLybrary()
+{
+	sleep(1);
+
+	gpioTerminate();
+}
 
 
 
