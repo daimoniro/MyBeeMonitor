@@ -87,7 +87,7 @@ void *mqtt_management()
 
     while(true)
     {
-        sleep(1);
+        sleep(5);
         char* string2send = build_get_apiario_json();
 
         if (string2send != NULL)

@@ -58,9 +58,9 @@ void *weight_management()
     {
         sleep(1);
 
-        apiario.arnie[0].weight = 40.4;
+        /*apiario.arnie[0].weight = 40.4;
         apiario.arnie[1].weight = 0.4;
-        apiario.arnie[2].weight = 80.4;
+        apiario.arnie[2].weight = 80.4;*/
       //  printf("Do stuff ...\n");
     }
 }

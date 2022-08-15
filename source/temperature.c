@@ -21,7 +21,11 @@
 #define FREQUENZA_LETTURA_TEMPERATURE	2
 
 #define ID_SENDORE_INTERNO	0
+#define ID_SENDORE_ESTERNO	1
 
+
+#define FILE_SENSORE_1W_INTERNO "/sys/bus/w1/devices/28-000000103925/w1_slave"
+#define FILE_SENSORE_1W_ESTERNO "/sys/bus/w1/devices/28-000000105769/w1_slave"
 
 /* Private macros -------------------------------------------------------------*/
 
@@ -79,15 +83,9 @@ void *temperature_management()
 	//system("sudo modprobe w1-gpio");
 	//system("sudo modprobe w1-therm");
 
-
-	sprintf(pathDeviceTemperatureSensor,"/sys/bus/w1/devices/28-000000103925/w1_slave");
-	//sprintf(pathDeviceTemperatureSensor,"/sys/bus/w1/devices/%s/w1_slave",cfg.idTemperatureSensor);
-
 	valoriTemperatura[ID_SENDORE_INTERNO] = 0xFFFF;
 	valoriTemperatura[1] = 0xFFFF;
 	valoriTemperatura[2] = 0xFFFF;
-
-	letturaTemperatura(ID_SENDORE_INTERNO);
 
     while(true)
     {
@@ -107,9 +105,9 @@ void *temperature_management()
 				if(returnFunz >0 )
 				{
 
-					tempDS18D20 = (float)((short)valoriTemperatura[0])/((float)1000);
+					tempDS18D20 = (float)((short)valoriTemperatura[ID_SENDORE_INTERNO])/((float)1000);
 
-					sprintf(debug_str_temp,"valoreTemperatura %f",tempDS18D20);
+					sprintf(debug_str_temp,"valoreTemperatura int: %f",tempDS18D20);
 					TRACE4(1,"TEMP",BIANCO,NERO_BG,debug_str_temp,0);
 
                     apiario.arnie[0].temperature_internal = tempDS18D20;
@@ -119,6 +117,27 @@ void *temperature_management()
 					sprintf(debug_str_temp,"Errore lettura temperatura. path: %s",pathDeviceTemperatureSensor);
 					TRACE4(1,"TEMP",NERO,ROSSO_BG,debug_str_temp,0);
 				}
+
+
+				returnFunz = letturaTemperatura(ID_SENDORE_ESTERNO);
+
+				if(returnFunz >0 )
+				{
+
+					tempDS18D20 = (float)((short)valoriTemperatura[ID_SENDORE_ESTERNO])/((float)1000);
+
+					sprintf(debug_str_temp,"valoreTemperatura est: %f",tempDS18D20);
+					TRACE4(1,"TEMP",BIANCO,NERO_BG,debug_str_temp,0);
+
+                    apiario.temperature_external = tempDS18D20;
+				}
+				else
+				{
+					sprintf(debug_str_temp,"Errore lettura temperatura. path: %s",pathDeviceTemperatureSensor);
+					TRACE4(1,"TEMP",NERO,ROSSO_BG,debug_str_temp,0);
+				}
+
+
 				temperatureLette = 1;
 			}
 		}
@@ -148,12 +167,12 @@ int letturaTemperatura(int idSensore)
 	switch(idSensore)
 	{
 		case ID_SENDORE_INTERNO:
-			SensoreFile = fopen(pathDeviceTemperatureSensor,"r");
+			SensoreFile = fopen(FILE_SENSORE_1W_INTERNO,"r");
 			break;
-		/*case ID_SENDORE_ESTERNO:
+		case ID_SENDORE_ESTERNO:
 			SensoreFile = fopen(FILE_SENSORE_1W_ESTERNO,"r");
 			break;
-		case ID_SENDORE_FERMENTATORE:
+		/*case ID_SENDORE_FERMENTATORE:
 			SensoreFile = fopen(FILE_SENSORE_1W_FERMENTATORE,"r");
 			break;*/
 
