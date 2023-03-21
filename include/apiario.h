@@ -9,7 +9,7 @@
 #ifndef _APIARIO_H
 #define _APIARIO_H
 
-#define MAX_NUM_ARNIE    3
+#define MAX_NUM_ARNIE    10
 
 typedef struct arnia_s {
     float temperature_internal; 
