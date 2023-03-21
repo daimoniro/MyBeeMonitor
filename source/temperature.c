@@ -105,7 +105,7 @@ void *temperature_management()
 				if(returnFunz >0 )
 				{
 
-					tempDS18D20 = (float)((short)valoriTemperatura[ID_SENDORE_INTERNO])/((float)1000);
+					tempDS18D20 = (float)((int)valoriTemperatura[ID_SENDORE_INTERNO])/((float)1000);
 
 					sprintf(debug_str_temp,"valoreTemperatura int: %f",tempDS18D20);
 					TRACE4(1,"TEMP",BIANCO,NERO_BG,debug_str_temp,0);
@@ -124,7 +124,7 @@ void *temperature_management()
 				if(returnFunz >0 )
 				{
 
-					tempDS18D20 = (float)((short)valoriTemperatura[ID_SENDORE_ESTERNO])/((float)1000);
+					tempDS18D20 = (float)((int)valoriTemperatura[ID_SENDORE_ESTERNO])/((float)1000);
 
 					sprintf(debug_str_temp,"valoreTemperatura est: %f",tempDS18D20);
 					TRACE4(1,"TEMP",BIANCO,NERO_BG,debug_str_temp,0);
