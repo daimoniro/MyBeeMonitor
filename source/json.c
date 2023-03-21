@@ -16,7 +16,7 @@
 #include <jansson.h>
 #include <time.h>
 #include "apiario.h"
-
+#include "network.h"
 /* Private defines ------------------------------------------------------------*/
 
 /* Private macros -------------------------------------------------------------*/
@@ -35,6 +35,8 @@
 
 /* Private function bodies ----------------------------------------------------*/
 extern apiario_t apiario;
+extern unsigned long wlan_rx_bytes;
+extern unsigned long wlan_tx_bytes;
 
 //----------------------------------------------------------------------
 //  gettime_4log_journal
@@ -63,7 +65,7 @@ char *build_get_apiario_json()
 
 	json_t *obj = json_pack("{"
 							"s:{s:s},"      //Timestamp
-							"s:{s:f,s:f,s:f},"      //common
+							"s:{s:f,s:f,s:f,s:i,s:i},"      //common
                             "s:{s:f,s:f,s:f,s:f},"  //arnia_1
                             "s:{s:f,s:f,s:f,s:f},"  //arnia_2
                             "s:{s:f,s:f,s:f,s:f}"   //arnia_3
@@ -74,6 +76,8 @@ char *build_get_apiario_json()
 							    "rain", apiario.rain,
 							    "temperature_external", apiario.temperature_external,
                                 "lux",apiario.lux,
+								"wlan_rx_bytes",wlan_rx_bytes,
+								"wlan_tx_bytes",wlan_tx_bytes,
                             "arnia_1",
 							    "temperature_internal", apiario.arnie[0].temperature_internal,
 								"temperature_internal_2", apiario.arnie[0].temperature_internal_2,
