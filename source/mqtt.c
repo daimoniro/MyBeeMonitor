@@ -89,7 +89,6 @@ void *mqtt_management()
     {
         sleep(5);
         char* string2send = build_get_apiario_json();
-
         if (string2send != NULL)
         {
             send_mqtt_publish(string2send);
@@ -200,7 +199,7 @@ void* thread_reconnect(void* args)
 void calculate_topic()
 {
 	sprintf(topic,"myBeeMonitor/it040tn034");
-	
+	//sprintf(topic,"myBeeMonitor/1");
 }
 
 
@@ -210,7 +209,7 @@ void calculate_topic()
 int init_mosquitto()
 {
 	int rc = 0;
-    int type_security = 0;
+    int type_security = 1;
 	/* Required before calling other mosquitto functions */
 	mosquitto_lib_init();
 
@@ -270,7 +269,8 @@ int init_mosquitto()
 
 	while(true)
 	{
-		rc = mosquitto_connect(mosq, "broker.hivemq.com",1883, 60);
+		rc = mosquitto_connect(mosq, "192.168.1.2",1883, 60);
+
 		if(rc != MOSQ_ERR_SUCCESS)
 		{
 			//mosquitto_destroy(mosq);
@@ -310,6 +310,7 @@ int init_mosquitto()
 //----------------------------------------------------
 int send_mqtt_publish(char *str2send)
 {
+
 	if(g_bConnected == true)
 	{
 		int ret = mosquitto_publish(mosq, NULL,topic, strlen(str2send), str2send, 2, false);	
