@@ -16,6 +16,7 @@
 #include "../include/weight.h"
 #include "../include/lux.h"
 #include "../include/mqtt.h"
+#include "../include/network.h"
 
 /* Private defines ------------------------------------------------------------*/
 
@@ -59,6 +60,8 @@ int main(int argc, char *argv[])
 	StartWeightManagement();
 
 	StartLuxManagement();
+
+	StartNetworkManagement();
 
 	sleep(2);
 

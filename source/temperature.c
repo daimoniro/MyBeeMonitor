@@ -55,7 +55,7 @@ int letturaTemperatura(int idSensore);
 /* Private function bodies ----------------------------------------------------*/
 
 //-----------------------------------------------------------------------------
-//	StartModuleManagement
+//	StartTemperatureManagement
 //-----------------------------------------------------------------------------
 void StartTemperatureManagement()
 {
