@@ -22,7 +22,7 @@
 
 /* Private macros -------------------------------------------------------------*/
 #define SEC_WITHOUT_BROKER_CONNECTION 	120*60
-
+#define FREQUENCY_PUBLISH_MQTT		60
 /* Private data types ---------------------------------------------------------*/
 
 /* Private enumerations -------------------------------------------------------*/
@@ -87,7 +87,8 @@ void *mqtt_management()
 
     while(true)
     {
-        sleep(5);
+        sleep(FREQUENCY_PUBLISH_MQTT);
+
         char* string2send = build_get_apiario_json();
         if (string2send != NULL)
         {
