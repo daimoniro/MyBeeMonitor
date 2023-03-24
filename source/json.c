@@ -56,7 +56,7 @@ void gettime_4log_journal(unsigned char *pubTime)
     stTimeInfo = gmtime(&stCurTime);
     strftime((char *)aubTime, 48, "%Y-%m-%d %H:%M:%S", stTimeInfo);
 
-    sprintf((char *)pubTime, "%s.%03ld", aubTime, stTimeval.tv_usec / 1000);
+    sprintf((char *)pubTime, "%s.000", aubTime);
 
 }
 
