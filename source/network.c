@@ -83,8 +83,8 @@ void *network_management()
 {
     while(true)
     {
-		sleep(5);
 		evaluate_net_stats();
+		sleep(5);
     }
 }
 

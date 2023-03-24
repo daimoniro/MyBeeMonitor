@@ -16,9 +16,9 @@
 
 #include "apiario.h"
 /* Private defines ------------------------------------------------------------*/
-#define I2C_LUX_ADDR    0x23
+#define I2C_LINE                1
+#define I2C_LUX_ADDR            0x23
 #define I2C_LUX_REG_READ        0
-#define I2C_LUX_REG_WRITE       0
 
 #define I2C_LUX_CONFIGURATION_BYTE  0x10
 /* Private macros -------------------------------------------------------------*/
@@ -58,9 +58,9 @@ void StartLuxManagement()
 //-----------------------------------------------------------------------------
 void *lux_management()
 {
-    lux_i2c_handle = i2cOpen(1,I2C_LUX_ADDR,0);
+    lux_i2c_handle = i2cOpen(I2C_LINE,I2C_LUX_ADDR,0);
 
-    if(lux_i2c_handle < 0)
+    if(lux_i2c_handle <= 0)
     {
          printf("Sensore luce non disponibile \n");   
          apiario.lux = -1;
@@ -81,7 +81,7 @@ void *lux_management()
         int word=i2cReadWordData(lux_i2c_handle,I2C_LUX_REG_READ);
         int lux=((word & 0xff00)>>8) | ((word & 0x00ff)<<8);
         printf("word: %d --> lux : %d\n",word,lux);
+
         apiario.lux = (float)lux;
-        //printf("Do stuff ...\n");
     }
 }
