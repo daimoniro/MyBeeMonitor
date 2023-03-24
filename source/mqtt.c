@@ -82,20 +82,26 @@ void StartMqttManagement()
 //-----------------------------------------------------------------------------
 void *mqtt_management()
 {
+	time_t rawtime;
     init_mosquitto();
 
 
     while(true)
     {
-        sleep(FREQUENCY_PUBLISH_MQTT);
+        usleep(500000);
 
-        char* string2send = build_get_apiario_json();
-        if (string2send != NULL)
-        {
-            send_mqtt_publish(string2send);
-            free(string2send);
-        }
+		time ( &rawtime );
+		if((rawtime % FREQUENCY_PUBLISH_MQTT) == 0)
+		{
+			char* string2send = build_get_apiario_json();
+			if (string2send != NULL)
+			{
+				send_mqtt_publish(string2send);
+				free(string2send);
+			}
 
+			sleep(2);
+		}
     }
 }
 
