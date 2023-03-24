@@ -74,9 +74,6 @@ void StartTemperatureManagement()
 void *temperature_management()
 {
     time_t now;
-	int temperatureLette = 0;
-
-
 	int returnFunz = 0;
 
 
@@ -90,61 +87,47 @@ void *temperature_management()
     while(true)
     {
 
-        usleep(500000);
+        sleep(1);
 		time(&now);
-		//printf("now: %ld\n",now);
 
 
-		//if((now % FREQUENZA_LETTURA_TEMPERATURE) == 0)
+		returnFunz = letturaTemperatura(ID_SENDORE_INTERNO);
+
+		if(returnFunz >0 )
 		{
 
-			//if(temperatureLette == 0)
-			{
-				returnFunz = letturaTemperatura(ID_SENDORE_INTERNO);
+			tempDS18D20 = (float)((int)valoriTemperatura[ID_SENDORE_INTERNO])/((float)1000);
 
-				if(returnFunz >0 )
-				{
+			sprintf(debug_str_temp,"valoreTemperatura int: %f",tempDS18D20);
+			TRACE4(1,"TEMP",BIANCO,NERO_BG,debug_str_temp,0);
 
-					tempDS18D20 = (float)((int)valoriTemperatura[ID_SENDORE_INTERNO])/((float)1000);
-
-					sprintf(debug_str_temp,"valoreTemperatura int: %f",tempDS18D20);
-					TRACE4(1,"TEMP",BIANCO,NERO_BG,debug_str_temp,0);
-
-                    apiario.arnie[0].temperature_internal = tempDS18D20;
-				}
-				else
-				{
-					sprintf(debug_str_temp,"Errore lettura temperatura. path: %s",pathDeviceTemperatureSensor);
-					TRACE4(1,"TEMP",NERO,ROSSO_BG,debug_str_temp,0);
-				}
-
-
-				returnFunz = letturaTemperatura(ID_SENDORE_ESTERNO);
-
-				if(returnFunz >0 )
-				{
-
-					tempDS18D20 = (float)((int)valoriTemperatura[ID_SENDORE_ESTERNO])/((float)1000);
-
-					sprintf(debug_str_temp,"valoreTemperatura est: %f",tempDS18D20);
-					TRACE4(1,"TEMP",BIANCO,NERO_BG,debug_str_temp,0);
-
-                    apiario.temperature_external = tempDS18D20;
-				}
-				else
-				{
-					sprintf(debug_str_temp,"Errore lettura temperatura. path: %s",pathDeviceTemperatureSensor);
-					TRACE4(1,"TEMP",NERO,ROSSO_BG,debug_str_temp,0);
-				}
-
-
-				temperatureLette = 1;
-			}
+			apiario.arnie[0].temperature_internal = tempDS18D20;
 		}
-		/*else
+		else
 		{
-			temperatureLette = 0;
-		}*/
+			sprintf(debug_str_temp,"Errore lettura temperatura. path: %s",pathDeviceTemperatureSensor);
+			TRACE4(1,"TEMP",NERO,ROSSO_BG,debug_str_temp,0);
+		}
+
+
+		returnFunz = letturaTemperatura(ID_SENDORE_ESTERNO);
+
+		if(returnFunz >0 )
+		{
+
+			tempDS18D20 = (float)((int)valoriTemperatura[ID_SENDORE_ESTERNO])/((float)1000);
+
+			sprintf(debug_str_temp,"valoreTemperatura est: %f",tempDS18D20);
+			TRACE4(1,"TEMP",BIANCO,NERO_BG,debug_str_temp,0);
+
+			apiario.temperature_external = tempDS18D20;
+		}
+		else
+		{
+			sprintf(debug_str_temp,"Errore lettura temperatura. path: %s",pathDeviceTemperatureSensor);
+			TRACE4(1,"TEMP",NERO,ROSSO_BG,debug_str_temp,0);
+		}
+		
     }
 }
 

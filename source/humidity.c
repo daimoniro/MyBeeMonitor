@@ -35,7 +35,6 @@
 
 /* Private variables ----------------------------------------------------------*/
 int data_dht22[5] = { 0, 0, 0, 0, 0 };
-static const char delim[] = "=";
 
 float tempDHT22 = 0;
 float humDHT22 = 0;

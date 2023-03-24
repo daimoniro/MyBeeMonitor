@@ -15,6 +15,8 @@
 #include <unistd.h>
 #include <jansson.h>
 #include <time.h>
+#include <sys/time.h>
+
 #include "apiario.h"
 #include "network.h"
 /* Private defines ------------------------------------------------------------*/

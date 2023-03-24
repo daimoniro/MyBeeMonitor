@@ -81,14 +81,10 @@ void StartNetworkManagement()
 //-----------------------------------------------------------------------------
 void *network_management()
 {
-    time_t now;
-
-
     while(true)
     {
 		sleep(5);
 		evaluate_net_stats();
-
     }
 }
 

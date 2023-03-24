@@ -81,8 +81,9 @@ int main(int argc, char *argv[])
 //--------------------------------------------------
 void sig_handler(int signo)
 {
-	 closePigpioLybrary();
-	 exit(0);
+	(void)signo;
+	closePigpioLybrary();
+	exit(0);
 
 }
 

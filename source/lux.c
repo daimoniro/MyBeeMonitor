@@ -65,7 +65,7 @@ void *lux_management()
     {
          printf("Sensore luce non disponibile \n");   
          apiario.lux = -1;
-         return;
+         return null;
     }
     else
     {
