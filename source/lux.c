@@ -58,14 +58,13 @@ void StartLuxManagement()
 //-----------------------------------------------------------------------------
 void *lux_management()
 {
-    
     lux_i2c_handle = i2cOpen(1,I2C_LUX_ADDR,0);
 
     if(lux_i2c_handle < 0)
     {
          printf("Sensore luce non disponibile \n");   
          apiario.lux = -1;
-         return null;
+         return NULL;
     }
     else
     {
