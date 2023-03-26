@@ -22,7 +22,7 @@
 
 /* Private macros -------------------------------------------------------------*/
 #define SEC_WITHOUT_BROKER_CONNECTION 	120*60
-#define FREQUENCY_PUBLISH_MQTT		60
+#define FREQUENCY_PUBLISH_MQTT		5
 /* Private data types ---------------------------------------------------------*/
 
 /* Private enumerations -------------------------------------------------------*/

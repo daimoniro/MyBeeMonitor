@@ -18,7 +18,7 @@
 /* Private defines ------------------------------------------------------------*/
 #define I2C_LINE                1
 #define I2C_LUX_ADDR            0x23
-#define I2C_LUX_REG_READ        0
+#define I2C_LUX_REG_READ        0x10
 
 #define I2C_LUX_CONFIGURATION_BYTE  0x10
 /* Private macros -------------------------------------------------------------*/
@@ -60,9 +60,9 @@ void *lux_management()
 {
     lux_i2c_handle = i2cOpen(I2C_LINE,I2C_LUX_ADDR,0);
 
-    if(lux_i2c_handle <= 0)
+    if(lux_i2c_handle < 0)
     {
-         printf("Sensore luce non disponibile \n");   
+         printf("Sensore luce non disponibile %d\n", lux_i2c_handle);   
          apiario.lux = -1;
          return NULL;
     }
