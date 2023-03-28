@@ -12,4 +12,8 @@
 //Sensori umidita'
 #define DHT_PIN_1		22
 
+//Sensore pioggia
+#define RAIN_PIN    18
+
+
 #endif /* _HARDWARE_CONF_H */

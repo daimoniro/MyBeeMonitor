@@ -18,9 +18,10 @@
 #include "apiario.h"
 #include "debug.h"
 #include "log.h"
+#include "hardware_conf.h"
+
 /* Private defines ------------------------------------------------------------*/
 
-#define RAIN_PIN    18
 /* Private macros -------------------------------------------------------------*/
 
 /* Private data types ---------------------------------------------------------*/
