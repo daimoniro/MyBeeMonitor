@@ -17,13 +17,13 @@
 #include <pigpio.h>
 #include "debug.h"
 #include "apiario.h"
+#include "hardware_conf.h"
 
 /* Private defines ------------------------------------------------------------*/
-#define DHT_PIN		22
 
 #define MAX_TIMINGS	85
 
-
+#define NUM_ARNIE_UMIDITY_SENSOR	1
 
 /* Private macros -------------------------------------------------------------*/
 
@@ -41,12 +41,13 @@ float humDHT22 = 0;
 
 char debug_str_hum[256];
 
+int array_hardware_pin_dht[] = {DHT_PIN_1};
 /* Public variables -----------------------------------------------------------*/
 extern apiario_t apiario;
 
 /* Private function prototypes ------------------------------------------------*/
 void *humidity_management();
-void read_dht_data();
+void read_dht_data(int num_arnia);
 
 /* Private function bodies ----------------------------------------------------*/
 
@@ -69,10 +70,15 @@ void StartHumManagement()
 //-----------------------------------------------------------------------------
 void *humidity_management()
 {
+	int count = 0;
+
     while(true)
     {
         sleep(2);
-		read_dht_data();
+		for(count = 0; count < NUM_ARNIE_UMIDITY_SENSOR; count ++ )
+		{
+			read_dht_data(count);
+		}
     }
 }
 
@@ -80,7 +86,7 @@ void *humidity_management()
 //-----------------------------------------------------------------------------
 //	read_dht_data
 //-----------------------------------------------------------------------------
-void read_dht_data()
+void read_dht_data(int num_arnia)
 {
 	uint8_t laststate	= 1;
 	uint8_t counter		= 0;
@@ -89,18 +95,18 @@ void read_dht_data()
 	data_dht22[0] = data_dht22[1] = data_dht22[2] = data_dht22[3] = data_dht22[4] = 0;
 
 	/* pull pin down for 18 milliseconds */
-	gpioSetMode( DHT_PIN, PI_OUTPUT );
-	gpioWrite( DHT_PIN, 0 );
+	gpioSetMode( array_hardware_pin_dht[num_arnia], PI_OUTPUT );
+	gpioWrite( array_hardware_pin_dht[num_arnia], 0 );
 	gpioDelay( 18000 );
 
 	/* prepare to read the pin */
-	gpioSetMode( DHT_PIN, PI_INPUT );
+	gpioSetMode( array_hardware_pin_dht[num_arnia], PI_INPUT );
 
 	/* detect change and read data */
 	for ( i = 0; i < MAX_TIMINGS; i++ )
 	{
 		counter = 0;
-		while ( gpioRead( DHT_PIN ) == laststate )
+		while ( gpioRead( array_hardware_pin_dht[num_arnia] ) == laststate )
 		{
 			counter++;
 			gpioDelay( 1 );
@@ -109,7 +115,7 @@ void read_dht_data()
 				break;
 			}
 		}
-		laststate = gpioRead( DHT_PIN );
+		laststate = gpioRead( array_hardware_pin_dht[num_arnia] );
 
 		if ( counter == 255 )
 			break;
@@ -148,15 +154,15 @@ void read_dht_data()
 		}
 
 
-		sprintf(debug_str_hum,"DHT22 --> Humidity = %.1f %% Temperature = %.1f *C", h, c);
+		sprintf(debug_str_hum,"Arnia #%d ==> DHT22 --> Humidity = %.1f %% Temperature = %.1f *C",num_arnia, h, c);
 		TRACE4(1,"HUM",BIANCO,NERO_BG,debug_str_hum,0);
 
 		tempDHT22 = c;
 		humDHT22 = h;
 
 
-		  apiario.arnie[0].humidity_internal = humDHT22;
-		    apiario.arnie[0].temperature_internal_2 = tempDHT22;
+		apiario.arnie[num_arnia].humidity_internal = humDHT22;
+		apiario.arnie[num_arnia].temperature_internal_2 = tempDHT22;
 		  
 
 
