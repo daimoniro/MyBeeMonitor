@@ -25,7 +25,7 @@ def write2file(arnia,val):
     file1 = open('/home/pi/workspace/MyBeeMonitor/python/weight.txt', 'w')
     now = datetime.now()
     # Writing a string to file
-    file1.write(now.strftime("%d/%m/%Y %H:%M:%S") + ";" + str(arnia) + ";" + str(val) + "\n")
+    file1.write(now.strftime("%d/%m/%Y %H:%M:%S") + ";" + str(arnia) + ";" + str(val) + ";\n")
     
     # Closing file
     file1.close()
@@ -103,6 +103,8 @@ def main(argv):
 
     except (KeyboardInterrupt, SystemExit):
         cleanAndExit()
+
+    cleanAndExit()
 
 if __name__ == "__main__":
    main(sys.argv[1:])
