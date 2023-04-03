@@ -84,7 +84,7 @@ void *weight_management()
         fread(text, sizeof(char), numbytes, textfile);
         fclose(textfile);
     
-        printf("%s\n",text);
+        //printf("%s\n",text);
 
         tokens = str_split(text, ';');
 
@@ -98,7 +98,7 @@ void *weight_management()
 
                 free(*(tokens + i));
             }
-            printf("\n");
+           // printf("\n");
             free(tokens);
         }
 

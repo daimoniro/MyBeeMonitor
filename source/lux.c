@@ -68,10 +68,10 @@ void *lux_management()
     }
     else
     {
-        printf("Lux I2C handle: %d\n",lux_i2c_handle);
+        //printf("Lux I2C handle: %d\n",lux_i2c_handle);
         int ret = i2cWriteByte(lux_i2c_handle,I2C_LUX_CONFIGURATION_BYTE);
 
-        printf("ret i2cWriteByte: %d\n",ret);
+       // printf("ret i2cWriteByte: %d\n",ret);
     }
 
     while(true)
@@ -80,7 +80,7 @@ void *lux_management()
 
         int word=i2cReadWordData(lux_i2c_handle,I2C_LUX_REG_READ);
         int lux=((word & 0xff00)>>8) | ((word & 0x00ff)<<8);
-        printf("word: %d --> lux : %d\n",word,lux);
+        //printf("word: %d --> lux : %d\n",word,lux);
 
         apiario.lux = (float)lux;
     }

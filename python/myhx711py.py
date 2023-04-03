@@ -12,11 +12,11 @@ from hx711 import HX711
 referenceUnit =8000
 
 def cleanAndExit():
-    print("Cleaning...")
+    #print("Cleaning...")
 
     GPIO.cleanup()
         
-    print("Bye!")
+    #print("Bye!")
     sys.exit()
 
 
@@ -88,7 +88,7 @@ def main(argv):
         
         # Prints the weight. Comment if you're debbuging the MSB and LSB issue.
         val = hx.get_weight(5)
-        print(val)
+        #print(val)
         write2file(arnia,val)
 
         # To get weight from both channels (if you have load cells hooked up 
