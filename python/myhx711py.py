@@ -2,14 +2,14 @@
 
 import time
 import sys
-from datetime import date
+from datetime import datetime
 import getopt
 import RPi.GPIO as GPIO
 from hx711 import HX711
 
 #https://github.com/tatobari/hx711py
 #https://github.com/j-dohnalek/hx711py
-referenceUnit = 1
+referenceUnit =8000
 
 def cleanAndExit():
     print("Cleaning...")
@@ -22,15 +22,16 @@ def cleanAndExit():
 
 def write2file(arnia,val):
     # Opening a file
-    file1 = open('weight.txt', 'w')
-    today = date.today()
+    file1 = open('/home/pi/workspace/MyBeeMonitor/python/weight.txt', 'w')
+    now = datetime.now()
     # Writing a string to file
-    file1.write(today + ";" + str(arnia) + ";" + str(val) + "\n")
+    file1.write(now.strftime("%d/%m/%Y %H:%M:%S") + ";" + str(arnia) + ";" + str(val) + "\n")
     
     # Closing file
     file1.close()
 
 def main(argv):
+    GPIO.setwarnings(False)
     dout = 5
     sck = 6
     arnia = 0
@@ -46,7 +47,7 @@ def main(argv):
         elif opt in ("-s","--sck"):
             sck = arg
 
-    hx = HX711(dout, sck)
+    hx = HX711(int(dout), int(sck))
 
     # I've found out that, for some reason, the order of the bytes is not always the same between versions of python, numpy and the hx711 itself.
     # Still need to figure out why does it change.
