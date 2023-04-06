@@ -1,3 +1,4 @@
+
 #! /usr/bin/python2
 
 import time
@@ -9,8 +10,8 @@ from hx711 import HX711
 
 #https://github.com/tatobari/hx711py
 #https://github.com/j-dohnalek/hx711py
-referenceUnit =8000
-
+referenceUnit =3250
+offset=379450
 def cleanAndExit():
     #print("Cleaning...")
 
@@ -69,7 +70,9 @@ def main(argv):
     hx.reset()
 
     #hx.tare()
-
+    tar = hx.read_average()
+    print(tar)
+    hx.set_offset(offset)
     #print("Tare done! Add weight now...")
 
     # to use both channels, you'll need to tare them both
@@ -88,7 +91,7 @@ def main(argv):
         
         # Prints the weight. Comment if you're debbuging the MSB and LSB issue.
         val = hx.get_weight(5)
-        #print(val)
+        print(val)
         write2file(arnia,val)
 
         # To get weight from both channels (if you have load cells hooked up 
