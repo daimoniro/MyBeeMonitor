@@ -67,32 +67,34 @@ char *build_get_apiario_json()
 
 	json_t *obj = json_pack("{"
 							"s:{s:s},"      //Timestamp
-							"s:{s:f,s:f,s:f,s:i,s:i},"      //common
-                            "s:{s:f,s:f,s:f,s:f},"  //arnia_1
+							"s:{s:f,s:f,s:f,s:f,s:i,s:i},"      //common
+                            "s:{s:f,s:f,s:f,s:f,s:f},"  //arnia_1
                             "s:{s:f,s:f,s:f,s:f},"  //arnia_2
                             "s:{s:f,s:f,s:f,s:f}"   //arnia_3
 							"}",
 							"Timestamp",
 								"ts",timestamp,
 							"common",
-							    "rain", apiario.rain,
+								"rain", apiario.rain,
 							    "temperature_external", apiario.temperature_external,
+								"temperature_external_delta_1min", apiario.temperature_external_delta_1min,
                                 "lux",apiario.lux,
 								"wlan_rx_bytes",wlan_rx_bytes,
 								"wlan_tx_bytes",wlan_tx_bytes,
                             "arnia_1",
 							    "temperature_internal", apiario.arnie[0].temperature_internal,
+								"temperature_internal_delta_1min", apiario.arnie[0].temperature_internal_delta_1min,
 								"temperature_internal_2", apiario.arnie[0].temperature_internal_2,
 							    "humidity_internal", apiario.arnie[0].humidity_internal,
                                 "weight", apiario.arnie[0].weight,
                             "arnia_2",
-							     "temperature_internal", apiario.arnie[1].temperature_internal,
-								 "temperature_internal_2", apiario.arnie[1].temperature_internal_2,
+							    "temperature_internal", apiario.arnie[1].temperature_internal,
+								"temperature_internal_2", apiario.arnie[1].temperature_internal_2,
 							    "humidity_internal", apiario.arnie[1].humidity_internal,
                                 "weight", apiario.arnie[1].weight,
                             "arnia_3",
-							     "temperature_internal", apiario.arnie[2].temperature_internal,
-								 "temperature_internal_2", apiario.arnie[2].temperature_internal_2,
+							    "temperature_internal", apiario.arnie[2].temperature_internal,
+								"temperature_internal_2", apiario.arnie[2].temperature_internal_2,
 							    "humidity_internal", apiario.arnie[2].humidity_internal,
                                 "weight", apiario.arnie[2].weight
 	);

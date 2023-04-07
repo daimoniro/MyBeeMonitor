@@ -20,12 +20,21 @@
 
 #define FREQUENZA_LETTURA_TEMPERATURE	2
 
-#define ID_SENDORE_INTERNO	0
-#define ID_SENDORE_ESTERNO	1
+#define ID_SENDORE_ESTERNO	0
+#define ID_SENDORE_ARNIA_1	1
+#define ID_SENDORE_ARNIA_2	2
+#define ID_SENDORE_ARNIA_3	3
+#define ID_SENDORE_ARNIA_4	4
+#define ID_SENDORE_ARNIA_5	5
 
+#define FILE_SENSORE_1W_ESTERNO "/sys/bus/w1/devices/28-000000103925/w1_slave"
+#define FILE_SENSORE_1W_ARNIA_1 "/sys/bus/w1/devices/28-000000105769/w1_slave"
+#define FILE_SENSORE_1W_ARNIA_2 "/sys/bus/w1/devices/28-xxxxxx/w1_slave"
+#define FILE_SENSORE_1W_ARNIA_3 "/sys/bus/w1/devices/28-xxxxxx/w1_slave"
+#define FILE_SENSORE_1W_ARNIA_4 "/sys/bus/w1/devices/28-xxxxxx/w1_slave"
+#define FILE_SENSORE_1W_ARNIA_5 "/sys/bus/w1/devices/28-xxxxxx/w1_slave"
 
-#define FILE_SENSORE_1W_INTERNO "/sys/bus/w1/devices/28-000000103925/w1_slave"
-#define FILE_SENSORE_1W_ESTERNO "/sys/bus/w1/devices/28-000000105769/w1_slave"
+#define  NUM_REAL_SENSORI_1W_MONTATI	2
 
 /* Private macros -------------------------------------------------------------*/
 
@@ -41,8 +50,8 @@ static char debug_str_temp[256];
 static const char delim[] = "=";
 
 /* Public variables -----------------------------------------------------------*/
-int valoriTemperatura[3];
-char pathDeviceTemperatureSensor[64];
+int valoriTemperatura[6];
+int old_valoriTemperatura[6];
 
 float tempDS18D20 = 0;
 
@@ -73,61 +82,83 @@ void StartTemperatureManagement()
 //-----------------------------------------------------------------------------
 void *temperature_management()
 {
-    time_t now;
+    time_t rawtime;
+	struct tm *info;
 	int returnFunz = 0;
-
+	int i = 0;
+	int read_temperature = 0;
 
 	//system("sudo modprobe w1-gpio");
 	//system("sudo modprobe w1-therm");
 
-	valoriTemperatura[ID_SENDORE_INTERNO] = 0xFFFF;
-	valoriTemperatura[1] = 0xFFFF;
-	valoriTemperatura[2] = 0xFFFF;
+	valoriTemperatura[ID_SENDORE_ESTERNO] = 0xFFFF;
+	valoriTemperatura[ID_SENDORE_ARNIA_1] = 0xFFFF;
+	valoriTemperatura[ID_SENDORE_ARNIA_2] = 0xFFFF;
+	valoriTemperatura[ID_SENDORE_ARNIA_3] = 0xFFFF;
+	valoriTemperatura[ID_SENDORE_ARNIA_4] = 0xFFFF;
+	valoriTemperatura[ID_SENDORE_ARNIA_5] = 0xFFFF;
+
+
+ 
+    //printf("Current local time and date: %s", asctime(info));
+
+
 
     while(true)
     {
+        usleep(200000);
 
-        sleep(1);
-		time(&now);
+		time(&rawtime);
+		info = localtime( &rawtime );
 
 
-		returnFunz = letturaTemperatura(ID_SENDORE_INTERNO);
-
-		if(returnFunz >0 )
+		if(((info->tm_sec % 5) == 0) && (read_temperature == 1))
 		{
+			for(i = 0; i < NUM_REAL_SENSORI_1W_MONTATI; i++)
+			{
+				returnFunz = letturaTemperatura(i);
 
-			tempDS18D20 = (float)((int)valoriTemperatura[ID_SENDORE_INTERNO])/((float)1000);
+				if(returnFunz >0 )
+				{
+					tempDS18D20 = (float)((int)valoriTemperatura[i])/((float)1000);
 
-			sprintf(debug_str_temp,"valoreTemperatura int: %f",tempDS18D20);
-			TRACE4(1,"TEMP",BIANCO,NERO_BG,debug_str_temp,0);
+					sprintf(debug_str_temp,"valoreTemperatura #%d: %f",i,tempDS18D20);
+					TRACE4(1,"TEMP",BIANCO,NERO_BG,debug_str_temp,0);
 
-			apiario.arnie[0].temperature_internal = tempDS18D20;
+					if(i == 0)
+						apiario.temperature_external = tempDS18D20;
+					else
+						apiario.arnie[i].temperature_internal = tempDS18D20;
+				}
+				else
+				{
+					sprintf(debug_str_temp,"Errore lettura temperatura #%d",i);
+					TRACE4(1,"TEMP",NERO,ROSSO_BG,debug_str_temp,0);
+				}
+
+				usleep(100000);
+			}
+
+			read_temperature = 0;
 		}
 		else
 		{
-			sprintf(debug_str_temp,"Errore lettura temperatura. path: %s",pathDeviceTemperatureSensor);
-			TRACE4(1,"TEMP",NERO,ROSSO_BG,debug_str_temp,0);
+			read_temperature = 1;
 		}
 
-
-		returnFunz = letturaTemperatura(ID_SENDORE_ESTERNO);
-
-		if(returnFunz >0 )
+		if(info->tm_sec == 0) 
 		{
+			for(i = 0; i < NUM_REAL_SENSORI_1W_MONTATI; i++)
+			{
+				if(i == 0)
+					apiario.temperature_external_delta_1min = valoriTemperatura[i] - old_valoriTemperatura[i];
+				else
+					apiario.arnie[i].temperature_internal_delta_1min = valoriTemperatura[i] - old_valoriTemperatura[i];
 
-			tempDS18D20 = (float)((int)valoriTemperatura[ID_SENDORE_ESTERNO])/((float)1000);
-
-			sprintf(debug_str_temp,"valoreTemperatura est: %f",tempDS18D20);
-			TRACE4(1,"TEMP",BIANCO,NERO_BG,debug_str_temp,0);
-
-			apiario.temperature_external = tempDS18D20;
+				old_valoriTemperatura[i] = valoriTemperatura[0];
+			}
 		}
-		else
-		{
-			sprintf(debug_str_temp,"Errore lettura temperatura. path: %s",pathDeviceTemperatureSensor);
-			TRACE4(1,"TEMP",NERO,ROSSO_BG,debug_str_temp,0);
-		}
-		
+	
     }
 }
 
@@ -149,15 +180,24 @@ int letturaTemperatura(int idSensore)
 
 	switch(idSensore)
 	{
-		case ID_SENDORE_INTERNO:
-			SensoreFile = fopen(FILE_SENSORE_1W_INTERNO,"r");
-			break;
 		case ID_SENDORE_ESTERNO:
 			SensoreFile = fopen(FILE_SENSORE_1W_ESTERNO,"r");
 			break;
-		/*case ID_SENDORE_FERMENTATORE:
-			SensoreFile = fopen(FILE_SENSORE_1W_FERMENTATORE,"r");
-			break;*/
+		case ID_SENDORE_ARNIA_1:
+			SensoreFile = fopen(FILE_SENSORE_1W_ARNIA_1,"r");
+			break;
+		case ID_SENDORE_ARNIA_2:
+			SensoreFile = fopen(FILE_SENSORE_1W_ARNIA_2,"r");
+			break;
+		case ID_SENDORE_ARNIA_3:
+			SensoreFile = fopen(FILE_SENSORE_1W_ARNIA_3,"r");
+			break;
+		case ID_SENDORE_ARNIA_4:
+			SensoreFile = fopen(FILE_SENSORE_1W_ARNIA_4,"r");
+			break;
+		case ID_SENDORE_ARNIA_5:
+			SensoreFile = fopen(FILE_SENSORE_1W_ARNIA_5,"r");
+			break;
 
         default:
            valoriTemperatura[idSensore] = 0xFFFF;
