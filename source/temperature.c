@@ -118,7 +118,7 @@ void *temperature_management()
 			{
 				returnFunz = letturaTemperatura(i);
 
-				if(returnFunz >0 )
+				if(returnFunz > 0)
 				{
 					tempDS18D20 = (float)((int)valoriTemperatura[i])/((float)1000);
 
@@ -151,9 +151,9 @@ void *temperature_management()
 			for(i = 0; i < NUM_REAL_SENSORI_1W_MONTATI; i++)
 			{
 				if(i == 0)
-					apiario.temperature_external_delta_1min = valoriTemperatura[i] - old_valoriTemperatura[i];
+					apiario.temperature_external_delta_1min = ((float)valoriTemperatura[i] - (float)old_valoriTemperatura[i])/((float)1000);
 				else
-					apiario.arnie[i].temperature_internal_delta_1min = valoriTemperatura[i] - old_valoriTemperatura[i];
+					apiario.arnie[i].temperature_internal_delta_1min = ((float)valoriTemperatura[i] - (float)old_valoriTemperatura[i])/((float)1000);
 
 				old_valoriTemperatura[i] = valoriTemperatura[0];
 			}
