@@ -102,6 +102,8 @@ char *build_get_apiario_json()
 	
 	char *json = json_dumps(obj, JSON_PRESERVE_ORDER | JSON_REAL_PRECISION(4));
 
+	printf("%s\n",json);
+
 	json_decref(obj);
 	return json;
 }
